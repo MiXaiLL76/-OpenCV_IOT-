@@ -22,9 +22,10 @@ fi
 
 cd ${HOME}/raspberry/opencv
 
-toolchain_sys_root=${HOME}/raspberry/rootfs_pi
+toolchain_sys_root=${HOME}/raspberry/rootfs_pi_ubuntu
 
 replace "try_compile(__VALID_LAPACK" "try_compile(NOT__VALID_LAPACK" cmake/OpenCVFindLAPACK.cmake
+replace "try_compile(__VALID_FFMPEG" "try_compile(NOT__VALID_FFMPEG" modules/videoio/cmake/detect_ffmpeg.cmake
 
 if ! [ -d build ]; then
     mkdir -p -m777 build 
@@ -36,9 +37,7 @@ rm -rf *
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=${root}/usr/local/ \
     -D CMAKE_TOOLCHAIN_FILE=${DIRECTORY}/toolchain_rpi.cmake \
-    -D CMAKE_SYSTEM_PROCESSOR="ARM" \
-    -D ENABLE_NEON=ON \
-    -D ENABLE_VFPV3=ON \
+    -D CMAKE_SYSTEM_PROCESSOR="ARM64" \
     -D BUILD_EXAMPLES=OFF \
     -D BUILD_TESTS=OFF \
     -D BUILD_PERF_TESTS=OFF \
@@ -49,12 +48,13 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D BUILD_WEBP=ON \
     include \
     -D PYTHON3_INCLUDE_PATH=${toolchain_sys_root}/usr/include/python3.7m \
-    -D PYTHON3_LIBRARIES=${toolchain_sys_root}/usr/lib/arm-linux-gnueabihf/libpython3.7m.so \
+    -D PYTHON3_LIBRARIES=${toolchain_sys_root}/usr/lib/aarch64-linux-gnu/libpython3.7m.so \
     -D PYTHON3_NUMPY_INCLUDE_DIRS=${toolchain_sys_root}/usr/local/lib/python3.7/dist-packages/numpy/core/include \
     -D BUILD_OPENCV_PYTHON3=ON \
     -D BUILD_OPENCV_PYTHON2=OFF \
     -D __VALID_LAPACK=1 \
     -D WITH_FFMPEG=YES \
+    -D __VALID_FFMPEG=1 \
     -D WITH_CUDA=NO ..
 
 

@@ -1,30 +1,27 @@
-# DEBIAN 10, RaspberryPi 3b+, ARMv7
+# UBUNTU 19.10, RaspberryPi 3b+, ARMv7
 
 ## Скомпилированную библиотеку, готовую к установке можно скачать в **[релизах](https://github.com/MiXaiLL76/OpenCV-IOT/releases)**
 
 ## Установка необходимых библиотек
 
 ```
-sudo apt install -y build-essential autoconf \
-automake cmake unzip pkg-config gcc-arm-linux-gnueabihf \
-g++-arm-linux-gnueabihf gfortran-arm-linux-gnueabihf \
-libgfortran5-armhf-cross gcc rsync
+sudo apt install -y build-essential autoconf automake cmake unzip pkg-config gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu libgfortran5-arm64-cross gcc rsync
 ```
 
 ```
-pi@raspberrypi:~ $ sudo apt install -y rsync libavcodec-dev libavcodec-dev libavresample-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev gfortran cmake git pkg-config wget libpython3-dev libgtk-3-dev libcanberra-gtk3-dev libdc1394-22-dev libgphoto2-dev ffmpeg libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtkglext1-dev
+ubuntu@ubuntu:~$ sudo apt install -y rsync libavcodec-dev libavcodec-dev libavresample-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev gfortran cmake git pkg-config wget libpython3-dev libgtk-3-dev libcanberra-gtk3-dev libdc1394-22-dev libgphoto2-dev ffmpeg libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtkglext1-dev
 ```
 
 Нужно создать Toolchain из библиотек файловой системы raspberrypi. Для этого я сделал скрипт **rsync.bash**
 
-Устанавливаем ```deviceIP="192.168.1.101"``` и запускаем его ```rsync.bash ${deviceIP}```
+Устанавливаем ```deviceIP="192.168.1.5"``` и запускаем его ```rsync.bash ${deviceIP}```
 
-У нас на нашем компьютере создается папка с библиотеками **/raspberry/rootfs_pi** в домашней дириктории. Синхронизация дело не быстрое, нужно подождать какое то время.
+У нас на нашем компьютере создается папка с библиотеками **/raspberry/rootfs_pi_ubuntu** в домашней дириктории. Синхронизация дело не быстрое, нужно подождать какое то время.
 
 Так же, я уже создал файл **toolchain_rpi.cmake**, который необходим для компиляции библиотеки на нашем компьютере
 
 ```
-deviceIP="192.168.1.101"
+deviceIP="192.168.1.5"
 bash rsync.bash ${deviceIP}
 ```
 
@@ -50,6 +47,24 @@ bash build.bash
 
 ```
 bash deb.bash
+```
+
+## Перенос пакета
+
+```
+scp opencv_arm64*.deb ubuntu@${deviceIP}:~
+```
+
+## Тестирование
+
+```
+ubuntu@ubuntu:~$ python3
+Python 3.7.5 (default, Nov 20 2019, 09:21:52)
+[GCC 9.2.1 20191008] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import cv2
+>>> cv2.__version__
+'4.3.0-pre'
 ```
 
 

@@ -2,7 +2,7 @@
 
 piIp=${1}
 
-tc_dir=${HOME}/raspberry/rootfs_pi
+tc_dir=${HOME}/raspberry/rootfs_pi_ubuntu   
 
 function sync {
 fullpathname=${tc_dir}${1}
@@ -14,19 +14,17 @@ rsync -rlvc \
 --info=progress2 \
 --delete-after \
 --safe-links  \
-pi@${piIp}:${1} ${fullpathname}
+ubuntu@${piIp}:${1} ${fullpathname}
 }
 
 include=(\
-/opt/vc/lib \
-/opt/vc/include \
-/usr/lib/arm-linux-gnueabihf \
+/usr/lib/aarch64-linux-gnu \
 /usr/include \
 /usr/local/include \
 /usr/local/lib \
 /usr/local/lib/pkgconfig \
 /usr/share/pkgconfig \
-/lib/arm-linux-gnueabihf \
+/lib/aarch64-linux-gnu \
 /usr/lib/python3 \
 )
 
@@ -35,5 +33,5 @@ do
 sync ${dir}
 done
 
-cp ${tc_dir}/usr/lib/arm-linux-gnueabihf/libm.a ${tc_dir}/usr/lib/libm.a
-ln -s ${HOME}/raspberry/rootfs_pi/usr/include/arm-linux-gnueabihf ${HOME}/raspberry/rootfs_pi/usr/include/x86_64-linux-gnu 
+cp ${tc_dir}/usr/lib/aarch64-linux-gnu/libm.a ${tc_dir}/usr/lib/libm.a
+ln -s ${tc_dir}/usr/include/aarch64-linux-gnu ${tc_dir}/usr/include/x86_64-linux-gnu 

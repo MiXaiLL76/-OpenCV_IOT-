@@ -1,7 +1,20 @@
 #!/bin/bash
 
+start_dir=$(pwd)
+
+# Название пакета
+pack_name="opencv"
+arch="arm64"
+
 su="sudo"
 apt_tool="${su} apt"
+
+# полный путь до скрипта
+ABSOLUTE_FILENAME=`readlink -e $0`
+
+# Путь к сборке пакета
+cd ~/raspberry/opencv/build
+
 
 indexOf(){
 # indexOf "asdsad" "a"
@@ -29,19 +42,15 @@ new_fakeroot="fakeroot-tcp"
 ${su} update-alternatives --set fakeroot /usr/bin/${new_fakeroot}
 ### Для сборки пакета
 
-# Название пакета
-pack_name="opencv"
-arch="armhf"
+
 
 # Тут можно почитать о такого рода сборке
 info="Build with [https://habr.com/ru/post/78094]"
 date_now=$(date +%Y.%m.%d)
 date_all=$(date +%'a, %d %b %Y %H:%M:%S %z')
 
-# полный путь до скрипта
-ABSOLUTE_FILENAME=`readlink -e "$0"`
 # каталог в котором лежит скрипт
-DIRECTORY=`dirname "${ABSOLUTE_FILENAME}"`
+DIRECTORY=`dirname ${ABSOLUTE_FILENAME}`
 # Текущая директория
 pwd_root=$(pwd)
 
@@ -58,6 +67,9 @@ ${su} rm -rf ${root}
 mkdir -p ${root}
 mkdir -p ${root}/DEBIAN
 
+doc=${root}/usr/share/doc/${pack_name}
+mkdir -p ${doc}
+
 make install PREFIX=${root}/usr/local
 
 mkdir -p ${root}/usr/lib/python3/dist-packages
@@ -69,7 +81,7 @@ cp ${root}/usr/local/lib/python3.7/dist-packages/cv2/python-3.7/cv2.cpython-*-gn
 
 
 
-mkdir -p ${root}/usr/lib/arm-linux-gnueabihf/pkgconfig
+mkdir -p ${root}/usr/lib/aarch64-linux-gnu/pkgconfig
 
 {
   echo "libdir = ${root}/usr/local/lib"
@@ -80,7 +92,7 @@ mkdir -p ${root}/usr/lib/arm-linux-gnueabihf/pkgconfig
   echo "Version: ${version}"
   echo "Libs: -L${libdir} -lopencv_calib3d -lopencv_core -lopencv_dnn -lopencv_features2d -lopencv_flann -lopencv_gapi -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_ml -lopencv_objdetect -lopencv_photo -lopencv_stitching -lopencv_videoio -lopencv_video"
   echo "Cflags: -I${includedir}"
-} > ${root}/usr/lib/arm-linux-gnueabihf/pkgconfig/opencv.pc
+} > ${root}/usr/lib/aarch64-linux-gnu/pkgconfig/opencv.pc
 
 sizebyte=$(du ${root} -c -b | grep total | awk '{print $1}')
 let "sizekb = sizebyte / 1024"
@@ -93,7 +105,7 @@ let "sizekb = sizekb + (sizekb / 100) * 20";
   echo "Maintainer: MiXaiLL76 <mike.milos@yandex.ru>"
   echo "Architecture: ${arch}"
   echo "Section: misc"
-  echo "Description: OpenCV builded for RPI3b+"
+  echo "Description: OpenCV builded for RPI4"
   echo "Installed-Size: ${sizekb}"
   echo "Priority: optional"
   echo "Origin: MiXaiLL76 brain"

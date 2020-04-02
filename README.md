@@ -1,12 +1,14 @@
 # DEBIAN 10, RaspberryPi 3b+, ARMv7
 
+## Скомпилированную библиотеку, готовую к установке можно скачать в **[релизах](https://github.com/MiXaiLL76/OpenCV-IOT/releases)**
+
 ## Установка необходимых библиотек
 
 ```
 sudo apt install -y build-essential autoconf \
 automake cmake unzip pkg-config gcc-arm-linux-gnueabihf \
 g++-arm-linux-gnueabihf gfortran-arm-linux-gnueabihf \
-libgfortran3-armhf-cross gcc rsync
+libgfortran5-armhf-cross gcc rsync
 ```
 
 ```
@@ -33,8 +35,8 @@ bash rsync.bash ${deviceIP}
 Но перед этим я настоятельно **РЕКОМЕНДУЮ** установить мои библиотеки которые я специально скомпилировал для rpi.
 Советую обе библиотеки ставить с правами супер пользователя. 
 
-- [OpenBLAS](https://github.com/MiXaiLL76/OpenBLAS_IOT)
-- [NumPY](https://github.com/MiXaiLL76/numpy_openblas)
+- [OpenBLAS](https://github.com/MiXaiLL76/OpenBLAS-IOT)
+- [NumPY](https://github.com/MiXaiLL76/Numpy-OpenBLAS-IOT)
 
 ```
 bash build.bash

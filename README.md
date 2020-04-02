@@ -67,6 +67,29 @@ Type "help", "copyright", "credits" or "license" for more information.
 '4.3.0-pre'
 ```
 
+## Синтетический тест
+
+> ARM64
+
+```
+ubuntu@ubuntu:~$ DISPLAY=:50 python3 video_test.py
+
+FPS min: 0
+FPS max: 30
+FPS mean: 16.148011782032402
+```
+
+> ARMHF
+
+```
+pi@raspberrypi:~/test-video $ python video_test.py 
+
+FPS min: 0
+FPS max: 21
+FPS mean: 10.857142857142858
+
+```
+### ПРИБАВКА ПО СКОРОСТИ РАБОТЫ У МЕНЯ СОСТАВИЛА 60% ОТНОСИТЕЛЬНО ARMHF DEBIAN 10
 
 ## Полезная информация, за которую очень благодарен авторам.
 [Кросс-компиляция OpenCV 4 для Raspberry Pi](https://solarianprogrammer.com/2018/12/18/cross-compile-opencv-raspberry-pi-raspbian/)

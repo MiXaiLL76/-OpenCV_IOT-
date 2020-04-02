@@ -1,4 +1,4 @@
-# UBUNTU 19.10, RaspberryPi 3b+, ARMv7
+# UBUNTU 19.10, RaspberryPi 3b+, ARMv8
 
 ## Скомпилированную библиотеку, готовую к установке можно скачать в **[релизах](https://github.com/MiXaiLL76/OpenCV-IOT/releases)**
 
